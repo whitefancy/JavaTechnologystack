@@ -67,14 +67,14 @@ public class OrangesRot {
         }
         return fresh;
     }
-}
-
-class Orange{
-    int row;
-    int col;
-    public void Orange(int r,int c)
-    {
-        row =r;
-        col =c;
+    class Orange{
+        int row;
+        int col;
+        public void Orange(int r,int c)
+        {
+            row =r;
+            col =c;
+        }
     }
 }
+

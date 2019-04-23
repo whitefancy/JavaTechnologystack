@@ -46,4 +46,5 @@ class Main1 {
             System.out.println(factorEqul);
         }
     }
+
 }

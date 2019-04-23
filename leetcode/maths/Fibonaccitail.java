@@ -41,17 +41,13 @@ class Fibonaccitail {
     public int checkFn(int n) {
         return nums[n];
     }
-
-}
-class Main {
-    public static void main(String[] args) {
+    public void test(){
         // TODO Auto-generated method stub
         Scanner sc = new Scanner(System.in);
         //多组数据 需要用while（scan.hasNext())
         while (sc.hasNext()) {
             int n = sc.nextInt();
-            Fibonaccitail pr= new Fibonaccitail();
-            System.out.println(pr.checkFn(n));
+            System.out.println(checkFn(n));
         }
     }
 }

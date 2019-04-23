@@ -25,4 +25,11 @@ public class FindJudge {
         }
         return -1;
     }
+    public void test(){
+        int N;
+        int[][] trust = new int[][]{{1,3},{2,3},{3,1}};
+        N = 3;
+        int ans =findJudge(N,trust);
+        System.out.println(ans);
+    }
 }
