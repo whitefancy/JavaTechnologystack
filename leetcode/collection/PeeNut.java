@@ -6,7 +6,7 @@ import static java.lang.Math.abs;
 
 public class PeeNut {
 
-    public static void main(String[] args) {
+    public  void test() {
         // TODO Auto-generated method stub
         Scanner sc = new Scanner(System.in);
         //多组数据 需要用while（scan.hasNext())
