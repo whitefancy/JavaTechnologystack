@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String args[]){
-        PATCount so = new PATCount();
+        NumPassword so = new NumPassword();
         so.test();
 
     }
