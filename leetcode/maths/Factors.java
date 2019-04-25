@@ -31,20 +31,15 @@ class Factors {
         }
         return s;
     }
-}
-class Main1 {
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
+    public void test(){
         Scanner sc = new Scanner(System.in);
         //多组数据 需要用while（scan.hasNext())
         while (sc.hasNext()) {
             int n = sc.nextInt();
             String factorEqul = n +" = ";
-            Factors pr= new Factors();
-            List<Integer> list =pr.getPrime(n);
-            factorEqul += pr.toEqual(list);
+            List<Integer> list =getPrime(n);
+            factorEqul += toEqual(list);
             System.out.println(factorEqul);
         }
     }
-
 }
