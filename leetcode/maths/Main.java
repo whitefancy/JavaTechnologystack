@@ -1,10 +1,9 @@
 package leetcode.maths;
-
 public class Main {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         //Perimeter pe = new Perimeter();
-        RunningTime so =new RunningTime();
+        MaxBenefit so = new MaxBenefit();
         so.test();
-       // so.performance();
+        // so.performance();
     }
 }
