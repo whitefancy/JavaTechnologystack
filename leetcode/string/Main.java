@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String args[]){
-        NumPassword so = new NumPassword();
+        ExcelColumn so = new ExcelColumn();
         so.test();
 
     }

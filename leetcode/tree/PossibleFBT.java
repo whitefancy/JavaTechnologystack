@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PossibleFBT {
+    // 给定N个节点，输出所有的满二叉树
     public List<TreeNode> allPossibleFBT(int N) {
         TreeNode root =new TreeNode(0);
         List<TreeNode> list = new LinkedList<>();
