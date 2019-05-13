@@ -1,11 +1,8 @@
 package JavaBasics;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class CollectionsOperation {
+public class ListArray {
 
     public List test(){
         // Arrays
@@ -26,11 +23,22 @@ public class CollectionsOperation {
 
         // List
         List<Integer> list = Arrays.asList(primes);// array to list 这里也只能用object 不能用基本类型
-
+        List b = Collections.EMPTY_LIST;//b 初始化为空List
         Collections.shuffle(list);//洗牌 打乱顺序
         int max = Collections.max(list);// 找出最大值
         System.out.println(max);
-        List b = Collections.EMPTY_LIST;//b 初始化为空List
+        Collections.rotate(list,3);//将list后3个元素整体移到前面
+        Collections.rotate(list,-3);//将list前3个元素整体移到后面
+        Collections.indexOfSubList(list,b);// 返回子列表在父列表中第一次出现的位置索引
+        Collections.lastIndexOfSubList(list,b);// 返回最后一次位置索引
+        Collections.replaceAll(list,2,8);//整体替换值
+
+// Set List, Deque,Map 都是线程不安全的。如果多线程，需要用Collenctions包装成线程同步
+        List list2 =Collections.synchronizedList(new LinkedList());
+
+        // 返回不可变的集合
+        List list3 = Collections.singletonList(new ArrayList());
+
         for (int i = 0; i < b.size(); i++) {
             // b.fori
         }
@@ -51,7 +59,7 @@ public class CollectionsOperation {
         //b.arg 把b作为参数
         ((ArrayList) b).trimToSize();// 缩小b的存储到最小的b
         ((ArrayList) b).ensureCapacity(100);// 让b的Array长度至少是100，从100起步
-        
+
         return b;//b.return
     }
 
