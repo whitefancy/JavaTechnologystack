@@ -1,4 +1,4 @@
-package usages;
+package JavaBasics;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,5 +26,9 @@ public class TypeChange {
         //list to array
         List<Integer> order = new ArrayList<>();
         int[] a =order.stream().mapToInt((Integer in)-> in).toArray();
+    }
+    public static void String2Array(String s ){
+        s = s.replace('[','{').replace(']','}');
+        System.out.println(s);
     }
 }

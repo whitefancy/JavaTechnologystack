@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String args[]){
-        ExcelColumn so = new ExcelColumn();
+        StringFilter so = new StringFilter();
         so.test();
 
     }

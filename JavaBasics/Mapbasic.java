@@ -25,7 +25,11 @@ public class Mapbasic {
 
         map.put(23,34);
         map.replaceAll((key,value)->key<10?200:-1);// 对所有键值对做修改数据操作
-
+        map = new HashMap<>();
+        for(Map.Entry entry:map.entrySet()){
+            entry.getKey();
+            entry.getValue();
+        }
 
         String s = map.toString();
         System.out.println(s);

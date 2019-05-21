@@ -1,6 +1,7 @@
 package JavaBasics;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ListArray {
 
@@ -35,7 +36,12 @@ public class ListArray {
 
 // Set List, Deque,Map 都是线程不安全的。如果多线程，需要用Collenctions包装成线程同步
         List list2 =Collections.synchronizedList(new LinkedList());
-
+        int a[]={1,2,3,2};
+        List<Integer> l1 = Arrays.stream(a).boxed().collect(Collectors.toList());
+        int b1[]={4,2,90,8,98};
+        int[] d3 = new int[a.length + b1.length];
+        System.arraycopy(a, 0, d3, 0, a.length);
+        System.arraycopy(b, 0, d3, a.length, b1.length);//拼接两个数组
         // 返回不可变的集合
         List list3 = Collections.singletonList(new ArrayList());
 
@@ -59,7 +65,8 @@ public class ListArray {
         //b.arg 把b作为参数
         ((ArrayList) b).trimToSize();// 缩小b的存储到最小的b
         ((ArrayList) b).ensureCapacity(100);// 让b的Array长度至少是100，从100起步
-
+        int[] ints =list.stream().mapToInt((Integer in)-> in).toArray();
+        int[]  newData = Arrays.copyOfRange(ints, 2, 7);
         return b;//b.return
     }
 

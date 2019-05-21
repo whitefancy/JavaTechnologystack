@@ -1,4 +1,4 @@
-package usages;
+package JavaBasics;
 
 public class waitNotify1 {
     //producer consumer problem.

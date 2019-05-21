@@ -1,4 +1,4 @@
-package usages;
+package JavaBasics;
 
 import java.util.Collections;
 import java.util.HashMap;
