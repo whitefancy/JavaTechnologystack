@@ -2,7 +2,7 @@ package leetcode.maths;
 public class Main {
     public static void main(String args[]) {
         //Perimeter pe = new Perimeter();
-        FindPaths so = new FindPaths();
+        FindNumber so = new FindNumber();
         so.test();
         // so.performance();
     }
