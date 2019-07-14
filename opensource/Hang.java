@@ -19,7 +19,6 @@ public class Hang extends JFrame {
                             Thread.currentThread().sleep(5000);
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
-
                         }
                     }
                 }
