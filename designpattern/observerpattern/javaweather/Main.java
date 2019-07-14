@@ -1,4 +1,4 @@
-package designpattern.observerpattern.internetweather;
+package designpattern.observerpattern.javaweather;
 
 public class Main {
     public static void main(String args[]){
@@ -9,7 +9,7 @@ public class Main {
         HeatIndexDisplay heatIndexDisplay =new HeatIndexDisplay(weatherData);
         weatherData.setMeasurements(80,65,30.4f);
         weatherData.setMeasurements(82,70,29.2f);
-        weatherData.removeObserver(forecastDisplay);
+        weatherData.deleteObserver(forecastDisplay);
         weatherData.setMeasurements(78,90,29.2f);
     }
 }
