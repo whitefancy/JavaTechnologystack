@@ -17,8 +17,9 @@ public class JDKClassDemo {
         // java 中时间和日期是分开的，这样有利于个性化历法
 
         //应当使用静态工厂方法 来代表 你 调用构造器
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now();//构造一个表示当前日期的对象
         LocalDate birthday = LocalDate.of(1994, 12, 17);
+        //构造一个表示给定日期的对象
         LocalDate old1 = birthday.plusDays(365);//原日期不会改变，只是构造一个新日期
         // 只访问对象 而不修改对象的方法 成为 访问器方法
         // 会修改对象的方法，称为 更改器方法
