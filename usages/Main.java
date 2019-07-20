@@ -2,8 +2,8 @@ package usages;
 
 public class Main {
     public static void main(String[] args) {
-        volatile1 so = new volatile1();
+        TypeChange so = new TypeChange();
       //  so.performanceTest();
-        so.atomicTest();
+        so.test();
     }
 }

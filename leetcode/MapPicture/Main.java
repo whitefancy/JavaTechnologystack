@@ -1,8 +1,9 @@
-package leetcode.collection;
+package leetcode.MapPicture;
+
 
 public class Main {
     public static void main(String args[]){
-        ListOperation so = new ListOperation();
+        Skyline so = new Skyline();
         so.test();
 
     }
