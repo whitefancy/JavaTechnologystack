@@ -21,16 +21,20 @@ class BallComponent extends JPanel {
      * @param b
      */
     public void add(Ball b) {
-
+        balls.add(b);
     }
 
     @Override
     public void paintComponent(Graphics g) {
-
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        for (Ball b : balls) {
+            g2.fill(b.getShape());
+        }
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return null;
+        return new Dimension(BallComponent.DEFAULT_WIDTH, BallComponent.DEFAULT_HIGHT);
     }
 }
