@@ -1,6 +1,7 @@
 package javacore.unsynch;
 
 import java.util.Arrays;
+import java.util.Vector;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -10,6 +11,7 @@ public class Bank {
     private Lock transferLock = new ReentrantLock();
     private Condition sufficientFunds;// 条件对象
     private Lock intrinsicLock = new ReentrantLock();
+    private Object lock1 = new Object();
 
     public Bank(int naccounts, double initialBalance) {
         sufficientFunds = transferLock.newCondition();//为同步锁增加条件对象
@@ -74,11 +76,15 @@ public class Bank {
         }
     }
 
-    /*
-    最好既不使用Lock condition 也不使用 synchronized关键字
-    而是使用concurrent包提供的机制
-    比如阻塞队列
-    如果synchronized时候，尽量使用，除非特别需要，才使用Lock/condition
+    /**
+     * 最好既不使用Lock condition 也不使用 synchronized关键字
+     * 而是使用concurrent包提供的机制
+     * 比如阻塞队列
+     * 如果synchronized时候，尽量使用，除非特别需要，才使用Lock/condition
+     *
+     * @param from
+     * @param to
+     * @param amount
      */
     public synchronized void transfer1(int from, int to, double amount) {
 //使用synchronized关键字来编写，要简洁得多
@@ -98,4 +104,42 @@ public class Bank {
         notifyAll();
     }
 
+    /**
+     * 同步阻塞
+     * lock1对象被创建仅仅用来使用对象持有的锁
+     *
+     * @param from
+     * @param to
+     * @param amount
+     */
+    public void transfer2(int from, int to, double amount) {
+        //因为JAVA的每个对象都有一个锁，所以可以用一个object 进入同步阻塞
+        synchronized (lock1) {
+            System.out.println(Thread.currentThread());
+            accounts[from] -= amount;
+            System.out.printf("%10.2f from %d to %d\n", amount, from, to);
+            accounts[to] += amount;
+            System.out.printf("Total Balance:%10.2f\n", getTotalBalance());
+        }
+    }
+
+    /**
+     * 客户端锁定
+     * 使用一个对象的锁来实现对 该对象 额外的 原子操作
+     * 客户端锁定是非常脆弱的，通常不推荐使用
+     *
+     * @param accounts
+     * @param from
+     * @param to
+     * @param amount
+     */
+    public void transfer(Vector<Double> accounts, int from, int to, double amount) {
+        synchronized (accounts) {
+            System.out.println(Thread.currentThread());
+            accounts.set(from, accounts.get(from) - amount);
+            System.out.printf("%10.2f from %d to %d\n", amount, from, to);
+            accounts.set(to, accounts.get(to) + amount);
+            System.out.printf("Total Balance:%10.2f\n", getTotalBalance());
+        }
+    }
 }
