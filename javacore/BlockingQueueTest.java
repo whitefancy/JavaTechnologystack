@@ -14,9 +14,10 @@ import java.util.concurrent.*;
  * 像队列插入null是非法的，因为返回null表示插入或者取出失败。
  */
 public class BlockingQueueTest {
-    LinkedBlockingDeque queue = new LinkedBlockingDeque();//没有上限，可以指定上限
-    ArrayBlockingQueue queue1 = new ArrayBlockingQueue(500);//有上限，可以设置公平参数，防止等待过长
-    PriorityBlockingQueue queue2 = new PriorityBlockingQueue();//没有上限，不是先进先出的队列
-    DelayQueue queue3 = new DelayQueue();//进入队列必须等待一段时间才能出去
-    TransferQueue queue4;//接口，可以允许生产者等待，只有有了消费者，才能接受元素
+    LinkedBlockingDeque queue = new LinkedBlockingDeque();//LinkedBlockingDeque没有上限，可以指定上限
+    ArrayBlockingQueue queue1 = new ArrayBlockingQueue(500);//ArrayBlockingQueue有上限，可以设置公平参数，防止等待过长
+    PriorityBlockingQueue queue2 = new PriorityBlockingQueue();//PriorityBlockingQueue没有上限，不是先进先出的队列，默认容量11,可以实现comparator接口
+    DelayQueue queue3 = new DelayQueue();//DelayQueue没有上限，进入队列必须等待一段时间才能出去
+    TransferQueue queue4;//TransferQueue接口，可以允许生产者等待，只有有了消费者，才能接受元素，即，只有被消费了，生产者才能收到成功信号
+    BlockingDeque deque;//双端队列 两头存取的队列
 }
