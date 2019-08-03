@@ -5,6 +5,7 @@ import java.util.Vector;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Bank {
     private final double[] accounts;
@@ -12,6 +13,13 @@ public class Bank {
     private Condition sufficientFunds;// 条件对象
     private Lock intrinsicLock = new ReentrantLock();
     private Object lock1 = new Object();
+    /*
+    读写锁 很多线程读，很少线程写，读写锁就很有用
+     */
+    private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+    //抽取读锁和写锁
+    private Lock readLock = rwl.readLock();
+    private Lock writeLock = rwl.writeLock();
 
     public Bank(int naccounts, double initialBalance) {
         sufficientFunds = transferLock.newCondition();//为同步锁增加条件对象
@@ -58,6 +66,38 @@ public class Bank {
         return sum;
     }
 
+    private double getTotalBalance11() {
+        //对所有的获取方法加读锁
+        readLock.lock();
+        try {
+            double sum = 0;
+            for (double a : accounts) {
+                sum += a;
+            }
+            return sum;
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    public void transfer11(int from, int to, double amount) {
+        /*对所有的修改方法加写锁
+         */
+        writeLock.lock();
+        try {
+            if (accounts[from] < amount) {
+                return;
+            }
+            System.out.println(Thread.currentThread());
+            accounts[from] -= amount;
+            System.out.printf("%10.2f from %d to %d\n", amount, from, to);
+            accounts[to] += amount;
+            System.out.printf("Total Balance:%10.2f\n", getTotalBalance());
+        } finally {
+            writeLock.unlock();
+        }
+    }
+
     public synchronized void method1() {
         //method body
     }
@@ -68,11 +108,11 @@ public class Bank {
     intrinsicCondition.await()  和  signalAll
      */
     public void method() {
-        this.intrinsicLock.lock();
+        intrinsicLock.lock();
         try {
             //method body
         } finally {
-            this.intrinsicLock.unlock();
+            intrinsicLock.unlock();
         }
     }
 
