@@ -1,12 +1,13 @@
 package designpattern.decoratorpattern.starbuzz;
 
 public class DarkRoast extends Beverage {
-    public DarkRoast() {
-        discription = "Most Excellent Dark Roast";
+    DarkRoast(Size s) {
+        size = s;
+        discription = "Most Excellent Dark Roast" + "(" + size + ")";
     }
 
     @Override
     public double cost() {
-        return .99;
+        return .99 + Beverage.getExtra(size);
     }
 }

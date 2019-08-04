@@ -1,8 +1,9 @@
 package designpattern.decoratorpattern.starbuzz;
 
 public class Decaf extends Beverage {
-    public Decaf() {
-        discription = "Decaf";
+    public Decaf(Size s) {
+        size = s;
+        discription = "Decaf" + "(" + size + ")";
     }
 
     @Override

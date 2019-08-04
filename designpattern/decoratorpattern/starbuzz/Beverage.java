@@ -11,15 +11,28 @@ package designpattern.decoratorpattern.starbuzz;
  */
 public abstract class Beverage {
     String discription = "Unknow Beverage";
+    Size size;
+
+    static double getExtra(Size size) {
+        return size.getAbbreviation();
+    }
 
     public String getDiscription() {
         return discription;
     }
 
+
     public abstract double cost();//cost必须在子类里实现
 
+    /**
+     * 这里要用getDiscription 而不是直接用discription
+     * 是因为如果用getDiscription的话，会调用实例的getDiscriotion，
+     * 否则就是直接返回抽象类的discription
+     *
+     * @return
+     */
     @Override
     public String toString() {
-        return discription + "$" + cost();
+        return getDiscription() + "$" + cost();
     }
 }

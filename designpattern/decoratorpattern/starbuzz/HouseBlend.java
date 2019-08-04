@@ -4,8 +4,9 @@ package designpattern.decoratorpattern.starbuzz;
  * 综合咖啡
  */
 public class HouseBlend extends Beverage {
-    public HouseBlend() {
-        discription = "HouseBlend";
+    HouseBlend(Size s) {
+        size = s;
+        discription = "HouseBlend" + "(" + size + ")";
     }
 
     @Override

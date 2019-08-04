@@ -4,8 +4,9 @@ package designpattern.decoratorpattern.starbuzz;
  * 浓缩咖啡
  */
 public class Espresso extends Beverage {
-    Espresso() {
-        discription = "Espresso";//使用构造器来设置饮料的描述，该字段继承自description
+    Espresso(Size s) {
+        size = s;
+        discription = "Espresso" + "(" + size + ")";//使用构造器来设置饮料的描述，该字段继承自description
     }
 
     @Override
