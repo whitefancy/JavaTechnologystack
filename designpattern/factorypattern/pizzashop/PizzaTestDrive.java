@@ -1,5 +1,9 @@
 package designpattern.factorypattern.pizzashop;
 
+import designpattern.factorypattern.pizzashop.pizza.Pizza;
+import designpattern.factorypattern.pizzashop.pizzastore.ChicagoPizzaStore;
+import designpattern.factorypattern.pizzashop.pizzastore.PizzaStore;
+
 /**
  * 所有工厂模式都用来封装对象的创建
  * 工厂方法模式 分为 创建者类 store 和 产品类pizza

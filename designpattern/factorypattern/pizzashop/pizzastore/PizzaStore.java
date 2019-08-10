@@ -1,4 +1,7 @@
-package designpattern.factorypattern.pizzashop;
+package designpattern.factorypattern.pizzashop.pizzastore;
+
+
+import designpattern.factorypattern.pizzashop.pizza.Pizza;
 
 abstract class PizzaStore {
 
