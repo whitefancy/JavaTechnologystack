@@ -3,7 +3,7 @@ package designpattern.factorypattern.pizzashop.pizzastore;
 
 import designpattern.factorypattern.pizzashop.pizza.Pizza;
 
-abstract class PizzaStore {
+public abstract class PizzaStore {
 
 
     /**
@@ -14,7 +14,7 @@ abstract class PizzaStore {
      * @param type
      * @return
      */
-    Pizza orderPizza(String type) {
+    public Pizza orderPizza(String type) {
 /*
 超类从来不管细节，通过实例化正确的比萨类，子类会自行照料一切
  */

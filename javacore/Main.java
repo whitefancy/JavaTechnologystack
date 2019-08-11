@@ -1,15 +1,16 @@
 package javacore;
 
+import leetcode.maths.WitchDay;
+
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) {
-        int[] A = {1, 2, 0};
-        int[] A1 = {3, 4, -1, 1};
-        int[] A2 = {7, 8, 9, 11, 12};
-        int mi = Main.minN(A2);
-        System.out.println(mi);
+        WitchDay witchDay = new WitchDay();
+        System.out.println(witchDay.ordinalOfDate("2003-03-01"));
+        System.out.println(witchDay.ordinalOfDate("2004-03-01"));
+        System.out.println(witchDay.ordinalOfDate("2010-02-10"));
     }
 
     private static int minN(int[] A) {

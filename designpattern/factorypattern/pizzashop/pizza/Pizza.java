@@ -35,7 +35,7 @@ public abstract class Pizza {
         }
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
