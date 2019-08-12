@@ -1,15 +1,20 @@
 package designpattern.observerpattern.internetweather;
 
-public class HeatIndexDisplay implements DisplayElement,Observer {
+import designpattern.observerpattern.proto.Observer;
+import designpattern.observerpattern.proto.Subject;
+
+public class HeatIndexDisplay implements DisplayElement, Observer {
     private float heatIndex;
     private Subject weatherData;
-    public HeatIndexDisplay(Subject weatherData){
+
+    HeatIndexDisplay(Subject weatherData) {
         this.weatherData = weatherData;
         weatherData.registerObserver(this);
     }
+
     @Override
     public void display() {
-        System.out.println("当前炎热指数为： "+heatIndex);
+        System.out.println("当前炎热指数为： " + heatIndex);
         System.out.println("显示完毕！");
     }
 

@@ -1,5 +1,8 @@
 package designpattern.observerpattern.internetweather;
 
+import designpattern.observerpattern.proto.Observer;
+import designpattern.observerpattern.proto.Subject;
+
 import java.util.ArrayList;
 
 public class WeatherData implements Subject {
@@ -8,28 +11,29 @@ public class WeatherData implements Subject {
     private float humidity;
     private float pressure;
 
-    public WeatherData(){
-        observers=new ArrayList();
+    WeatherData() {
+        observers = new ArrayList();
     }
-    void getTemperature()
-    {
+
+    void getTemperature() {
     }
-    void getHumidity()
-    {
+
+    void getHumidity() {
         //湿度
     }
-    void getPressure()
-    {
+
+    void getPressure() {
         //气压
     }
-    public void setMeasurements(float temperature,float humidity,float pressure){
+
+    void setMeasurements(float temperature, float humidity, float pressure) {
         this.temperature = temperature;
         this.humidity = humidity;
         this.pressure = pressure;
         measurementsChanged();
     }
-    void measurementsChanged()
-    {
+
+    private void measurementsChanged() {
         notifyObservers();
     }
 
@@ -40,18 +44,17 @@ public class WeatherData implements Subject {
 
     @Override
     public void removeObserver(Observer o) {
-        int i =observers.indexOf(o);
-        if(i>0)
-        {
+        int i = observers.indexOf(o);
+        if (i > 0) {
             observers.remove(o);
         }
     }
 
     @Override
     public void notifyObservers() {
-        for (int i = 0; i <observers.size() ; i++) {
-            Observer observer = (Observer)observers.get(i);
-            observer.update(temperature,humidity,pressure);
+        for (int i = 0; i < observers.size(); i++) {
+            Observer observer = (Observer) observers.get(i);
+            observer.update(temperature, humidity, pressure);
         }
     }
 }

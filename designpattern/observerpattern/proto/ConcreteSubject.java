@@ -1,10 +1,11 @@
-package designpattern.observerpattern.internetweather;
+package designpattern.observerpattern.proto;
 
 public class ConcreteSubject implements Subject {
-    void getState(){
+    void getState() {
 
     }
-    void setState(){
+
+    void setState() {
 
     }
 

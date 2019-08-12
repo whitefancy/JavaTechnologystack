@@ -1,4 +1,4 @@
-package designpattern.observerpattern.internetweather;
+package designpattern.observerpattern.proto;
 
 public class ConcreteObserver extends ConcreteSubject implements Observer {
 
