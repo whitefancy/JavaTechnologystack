@@ -1,10 +1,25 @@
-JKDFSNASD
-DSFADGZD
-DFA
-DFA
-DFAE
-            if (y < w[0]) {
-                w[0] = y;
-            } else if (y > w[1]) {
-                w[1] = y;
-            }
+为什么private static <T> void method(T val)方法，返回值是void，前面还要有<T>?
+
+第一个<T>是固定写法，叫类型占位符。可以理解为在这个方法中使用的泛型用符号T表示，即方法的入参里有泛型T。
+
+首先，泛型是jdk1.5的所采用的新技术，即把数据类型参数化。
+
+在Java SE 1.5之前，没有泛型的情况的下，通过对类型Object的引用来实现参数的“任意化”，“任意化”带来的缺点是要做显式的强制类型转换，而这种转换是要求开发者对实际参数类型可以预知的情况下进行的。对于强制类型转换错误的情况，编译器可能不提示错误，在运行的时候才出现异常，这是一个安全隐患。
+
+通过引入泛型，我们将获得编译时类型的安全和运行时更小地抛出ClassCastExceptions的可能。
+
+第一个<T>是固定写法，叫类型占位符。可以理解为在这个方法中使用的泛型用符号T表示，即方法的入参里有泛型T。当然你也可以用别的名字，常用的有T,U,R等。
+泛型的引入是为了通过类型约束机制实现类型转换的安全性。在编译的时候检查类型安全，并且所有的强制转换都是自动和隐式的，提高代码的重用率。具体来说，<T>表示的是在定义时先不确定其具体类型， <? super T> 表示上者的父类或其本身，<E>是枚举的泛型，<E extends Enum <E>>又是其继承。例如，<T extends Closeable> 表示返回的类型应该是继承了Closeable接口的所有子类。
+
+值得一提的是，基本内建类型(byte int short int long float double boolean)不能作为模板类、模板函数。应当改为相应包装(Boxing)类型,例如int->Integer。
+参考文献：
+https://bbs.csdn.net/topics/70195674
+https://zhidao.baidu.com/question/1574111882998364380.html
+https://zhidao.baidu.com/question/431893819179608684.html?qbl=relate_question_5
+https://zhidao.baidu.com/question/1174770744173210379.html?qbl=relate_question_6
+https://ask.csdn.net/questions/173187
+Java在运行时如何获取变量名？
+对于方法的局部变量，这是不可能的。因为变量名不是程序运行的必要部分，变量名在编译的时候就去除了。
+对于类的成员变量，可以使用反射的接口，使用Fields.getName() 获取。
+在编译Java的时候加上-g选项可以保留变量名，但这只用于调试。如果一定要用到“变量名”，不妨编程的时候换个思路。
+参考文献：https://zhidao.baidu.com/question/130661698.html?qbl=relate_question_5
