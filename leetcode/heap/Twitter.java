@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * unfollow(followerId, followeeId): 取消关注一个用户
  */
 public class Twitter {
-    Map<Integer, PriorityQueue<Tweet>> usersAndFeeds = new HashMap<>();
+    Map<Integer, List<Tweet>> usersAndFeeds = new HashMap<>();
     Map<Integer, List<Integer>> userAndFollows = new HashMap<>();
     int time = 0;
 
@@ -46,17 +46,17 @@ public class Twitter {
      */
     public void postTweet(int userId, int tweetId) {
         Tweet tweet = new Tweet(tweetId, time++);
-        PriorityQueue<Tweet> queue = usersAndFeeds.getOrDefault(userId,
-                new PriorityQueue<>((o1, o2) -> (o2.time - o1.time)));
-        queue.offer(tweet);
-        usersAndFeeds.putIfAbsent(userId, queue);
+        List<Tweet> list = usersAndFeeds.getOrDefault(userId,
+                new LinkedList<>());
+        list.add(tweet);
+        usersAndFeeds.putIfAbsent(userId, list);
     }
 
     /**
      * Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
      */
     public List<Integer> getNewsFeed(int userId) {
-        List<Integer> followees = userAndFollows.getOrDefault(userId, new ArrayList<>());
+        List<Integer> followees = userAndFollows.getOrDefault(userId, new LinkedList<>());
         if (!followees.contains(userId)) {
             followees.add(userId);
         }
@@ -66,7 +66,7 @@ public class Twitter {
                 queue.addAll(usersAndFeeds.get(followees.get(i)));
             }
         }
-        List<Tweet> list = new ArrayList<>(10);
+        List<Tweet> list = new LinkedList<>();
         for (int i = 0; i < 10; i++) {
             if (!queue.isEmpty()) {
                 list.add(queue.poll());
@@ -80,7 +80,7 @@ public class Twitter {
      * Follower follows a followee. If the operation is invalid, it should be a no-op.
      */
     public void follow(int followerId, int followeeId) {
-        List<Integer> followees = userAndFollows.getOrDefault(followerId, new ArrayList<>());
+        List<Integer> followees = userAndFollows.getOrDefault(followerId, new LinkedList<>());
         if (!followees.contains(followeeId)) {
             followees.add(followeeId);
         }
@@ -91,7 +91,7 @@ public class Twitter {
      * Follower unfollows a followee. If the operation is invalid, it should be a no-op.
      */
     public void unfollow(int followerId, int followeeId) {
-        List<Integer> followees = userAndFollows.getOrDefault(followerId, new ArrayList<>());
+        List<Integer> followees = userAndFollows.getOrDefault(followerId, new LinkedList<>());
         Iterator<Integer> it = followees.iterator();
         while (it.hasNext()) {
             Integer id = it.next();
