@@ -66,9 +66,14 @@ public class Twitter {
                 queue.addAll(usersAndFeeds.get(followees.get(i)));
             }
         }
-        Tweet[] feeds = (Tweet[]) queue.toArray();
-        Arrays.sort(feeds, (o1, o2) -> (o2.time - o1.time));
-        return Arrays.stream(feeds).map(Tweet::getTweetId).limit(10).collect(Collectors.toList());
+        List<Tweet> list = new ArrayList<>(10);
+        for (int i = 0; i < 10; i++) {
+            if (!queue.isEmpty()) {
+                list.add(queue.poll());
+            }
+        }
+        queue.addAll(list);
+        return list.stream().map(Tweet::getTweetId).collect(Collectors.toList());
     }
 
     /**
