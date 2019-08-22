@@ -89,7 +89,7 @@ public class CreatingStreams {
         可以让peek调用一个你设置了断点的方法
          */
         Object[] powers = Stream.iterate(1.0, p -> p * 2).peek(e -> System.out.println("Fetching " + e)).limit(20).toArray();
-    
+
     }
 
     private static Stream<String> letters(String w) {
