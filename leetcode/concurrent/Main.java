@@ -5,12 +5,10 @@ import java.util.concurrent.Executors;
 import java.util.function.IntConsumer;
 
 public class Main {
-    static ExecutorService exec;
+    private static ExecutorService exec;
 
     public static void main(String[] args) throws InterruptedException {
         Main.exec = Executors.newCachedThreadPool();
-        //Main.testFoo();
-        //Main.testFooBar();
         Main.testZero();
         Main.exec.shutdown();
     }
