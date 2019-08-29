@@ -1,11 +1,12 @@
 package designpattern.iteratorandcombinationpattern.iteratorpattern;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class PancakeHouseMenu {
+class PancakeHouseMenu implements Menu {
     private ArrayList menuItems;
 
-    public PancakeHouseMenu() {
+    PancakeHouseMenu() {
         menuItems = new ArrayList();
         addItem("K&B's Pancake Breakfast",
                 "Pancakes with scrambled eggs,and toast",
@@ -26,7 +27,8 @@ public class PancakeHouseMenu {
         menuItems.add(menuItem);
     }
 
+    @Override
     public Iterator createIterator() {
-        return new PancakeHouseIterator(menuItems);
+        return menuItems.iterator();
     }
 }

@@ -1,10 +1,12 @@
 package designpattern.iteratorandcombinationpattern.iteratorpattern;
 
+import java.util.Iterator;
+
 public class DinerMenuIterator implements Iterator {
     private MenuItem[] items;
     private int position = 0;
 
-    public DinerMenuIterator(MenuItem[] items) {
+    DinerMenuIterator(MenuItem[] items) {
         this.items = items;
     }
 
