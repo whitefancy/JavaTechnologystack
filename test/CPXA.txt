@@ -1,2 +1,1 @@
-        TheadC c = new TheadC(service);
-        c.setName("C");
+arrayC[i] = new ThreadC(service);
