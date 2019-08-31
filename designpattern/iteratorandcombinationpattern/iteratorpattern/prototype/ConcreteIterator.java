@@ -7,8 +7,8 @@ public class ConcreteIterator implements Iterator {
     }
 
     @Override
-    public boolean next() {
-        return false;
+    public Object next() {
+        return null;
     }
 
     @Override

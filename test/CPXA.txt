@@ -1,0 +1,2 @@
+        TheadC c = new TheadC(service);
+        c.setName("C");

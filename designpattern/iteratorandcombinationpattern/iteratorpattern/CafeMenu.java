@@ -6,6 +6,6 @@ public class CafeMenu {
     Hashtable menuItems = new Hashtable();
 
     public CafeMenu() {
-        
+
     }
 }
