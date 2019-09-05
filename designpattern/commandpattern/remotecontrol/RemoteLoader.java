@@ -14,7 +14,12 @@ public class RemoteLoader {
         CeilingFan ceilingFan = new CeilingFan("Living Room");
         GarageDoor garageDoor = new GarageDoor();
         Stereo stereo = new Stereo();
-
+        CeilingFanOnMediumCommand fanMedium = new CeilingFanOnMediumCommand(ceilingFan);
+        CeilingFanOnHighCommand fanHigh = new CeilingFanOnHighCommand(ceilingFan);
+        CeilingFanOnLowCommand fanlow = new CeilingFanOnLowCommand(ceilingFan);
+        CeilingFanOffCommand fanOff = new CeilingFanOffCommand(ceilingFan);
+        remoteControl.setCommands(0, fanMedium, fanOff);
+        remoteControl.setCommands(1, fanHigh, fanOff);
         LightOnCommand livingRoomLightOn = new LightOnCommand(livingRoomLight);
         LightOffCommand livingRoomLightOff = new LightOffCommand(livingRoomLight);
 
@@ -30,11 +35,15 @@ public class RemoteLoader {
         StereoOnWithCDCommand stereoOnWithCD = new StereoOnWithCDCommand(stereo);
         StereoOffCommand stereoOff = new StereoOffCommand(stereo);
 
-        remoteControl.setCommands(0, livingRoomLightOn, livingRoomLightOff);
-        remoteControl.setCommands(1, kitchenLightOn, kitchenLightOff);
+        remoteControl.setCommands(4, livingRoomLightOn, livingRoomLightOff);
+        remoteControl.setCommands(5, kitchenLightOn, kitchenLightOff);
         remoteControl.setCommands(2, ceilingFanOn, ceilingFanOff);
         remoteControl.setCommands(3, stereoOnWithCD, stereoOff);
-
+        Command[] partyOn = {livingRoomLightOn, kitchenLightOn, ceilingFanOn};
+        Command[] partyOff = {livingRoomLightOff, kitchenLightOff, ceilingFanOff};
+        MacroCommand partyOnMacro = new MacroCommand(partyOn);
+        MacroCommand partyOffMacro = new MacroCommand(partyOff);
+        remoteControl.setCommands(6, partyOnMacro, partyOffMacro);
         System.out.println(remoteControl);
 
         remoteControl.onButtonWasPushed(0);
