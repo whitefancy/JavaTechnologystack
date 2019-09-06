@@ -1,4 +1,4 @@
-package leetcode.heap;
+package leetcode.heap_priorityqueue;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -10,7 +10,7 @@ public class SlidingWindow {
         new SlidingWindow().maxSlidingWindow(A, 3);
     }
 
-    public int[] maxSlidingWindow(int[] nums, int k) {
+    private int[] maxSlidingWindow(int[] nums, int k) {
         PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {

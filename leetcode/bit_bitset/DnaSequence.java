@@ -1,6 +1,5 @@
-package leetcode.bit;
+package leetcode.bit_bitset;
 
-import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 

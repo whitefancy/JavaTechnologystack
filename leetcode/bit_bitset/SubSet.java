@@ -1,4 +1,4 @@
-package leetcode.bit;
+package leetcode.bit_bitset;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class SubSet {
      * @param nums
      * @return
      */
-    public List<List<Integer>> subsets(int[] nums) {
+    private List<List<Integer>> subsets(int[] nums) {
         int n = nums.length;
         int m = (int) Math.pow(2, n) - 1;
         List<List<Integer>> lists = new ArrayList<>(m);

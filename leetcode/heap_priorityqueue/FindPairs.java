@@ -1,4 +1,4 @@
-package leetcode.heap;
+package leetcode.heap_priorityqueue;
 
 import javafx.util.Pair;
 
@@ -18,7 +18,7 @@ public class FindPairs {
         new FindPairs().kSmallestPairs(a, b, 3);
     }
 
-    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+    private List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         List<List<Integer>> list = new LinkedList<>();
         Comparator<Pair<Integer, Integer>> order = new Comparator<Pair<Integer, Integer>>() {
             @Override

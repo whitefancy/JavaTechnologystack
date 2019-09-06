@@ -1,6 +1,6 @@
-package leetcode.heap;
+package leetcode.heap_priorityqueue;
 
-import java.util.*;
+import java.util.PriorityQueue;
 
 /**
  * 查找第n个丑数，丑数是1，和2,3,5的倍数
@@ -10,7 +10,7 @@ public class UglyNumber {
         System.out.println(new UglyNumber().nthUglyNumber(10));
     }
 
-    public int nthUglyNumber(int n) {
+    private int nthUglyNumber(int n) {
         if (n == 0) {
             return 0;
         }

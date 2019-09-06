@@ -1,7 +1,4 @@
-package leetcode.bit;
-
-import java.util.ArrayList;
-import java.util.List;
+package leetcode.bit_bitset;
 
 public class RepeatNumber {
     public static void main(String[] args) {
@@ -41,7 +38,7 @@ public class RepeatNumber {
      * @param nums
      * @return
      */
-    public int singleNumber(int[] nums) {
+    private int singleNumber(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }

@@ -1,4 +1,4 @@
-package leetcode.heap;
+package leetcode.heap_priorityqueue;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -19,7 +19,7 @@ public class MergeList {
         new MergeList().mergeKLists(A);
     }
 
-    public ListNode mergeKLists(ListNode[] lists) {
+    private ListNode mergeKLists(ListNode[] lists) {
         Comparator<ListNode> order = new Comparator<ListNode>() {
             @Override
             public int compare(ListNode o1, ListNode o2) {

@@ -1,4 +1,4 @@
-package leetcode.heap;
+package leetcode.heap_priorityqueue;
 
 import javafx.util.Pair;
 
@@ -44,7 +44,7 @@ public class ScanningLineMethod {
      * @param buildings
      * @return
      */
-    public List<List<Integer>> getSkyline(int[][] buildings) {
+    private List<List<Integer>> getSkyline(int[][] buildings) {
         List<List<Integer>> ans = new ArrayList<>();
         Comparator<Pair<Integer, Integer>> order = new Comparator<Pair<Integer, Integer>>() {
             @Override

@@ -1,6 +1,9 @@
-package leetcode.heap;
+package leetcode.heap_priorityqueue;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class FindEleInHeap {
     public static void main(String[] args) {
@@ -49,7 +52,7 @@ public class FindEleInHeap {
      * @param k
      * @return
      */
-    public int findKthLargest(int[] nums, int k) {
+    private int findKthLargest(int[] nums, int k) {
         Comparator<Integer> Order = new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {

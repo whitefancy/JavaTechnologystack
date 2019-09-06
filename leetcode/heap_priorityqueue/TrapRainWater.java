@@ -1,4 +1,4 @@
-package leetcode.heap;
+package leetcode.heap_priorityqueue;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -9,8 +9,8 @@ import java.util.PriorityQueue;
  */
 public class TrapRainWater {
     PriorityQueue<Wall> queue;
-    boolean[][] isVisited;
-    int[][] heightMap;
+    private boolean[][] isVisited;
+    private int[][] heightMap;
 
     public int trapRainWater(int[][] heightMap) {
         this.heightMap = heightMap;
@@ -44,7 +44,7 @@ public class TrapRainWater {
         addWall(x, y - 1);
     }
 
-    void addWall(int x, int y) {
+    private void addWall(int x, int y) {
         if (!isVisited[x][y]) {
             queue.offer(new Wall(x, y));
             isVisited[x][y] = true;
@@ -56,7 +56,7 @@ class Wall {
     int x;
     int y;
 
-    public Wall(int x, int y) {
+    Wall(int x, int y) {
         this.x = x;
         this.y = y;
     }
