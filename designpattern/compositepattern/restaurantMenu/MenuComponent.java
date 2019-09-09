@@ -1,6 +1,7 @@
 package designpattern.compositepattern.restaurantMenu;
 
-import designpattern.iteratorpattern.prototype.Iterator;
+
+import java.util.Iterator;
 
 abstract class MenuComponent {
     public Iterator iterator;

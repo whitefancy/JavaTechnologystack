@@ -1,4 +1,4 @@
-package javacore2.net;
+package javacore2.net.inetaddress;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -10,14 +10,9 @@ import java.util.Scanner;
 /**
  * telnet time-a.nist.gov 13
  */
-public class SocketTest {
+public class InetAdressTest {
     public static void main(String[] args) {
-        try (Socket s = new Socket("time-a.nist.gov", 13);//打开一个套接字
-             Scanner in = new Scanner(s.getInputStream(), "UTF-8")) {
-            while (in.hasNextLine()) {
-                String line = in.nextLine();
-                System.out.println(line);
-            }
+        try {
             InetAddress address = InetAddress.getByName("time-a.nist.gov");
             System.out.println(address.getHostAddress());
             InetAddress[] addresses = InetAddress.getAllByName("www.baidu.com");

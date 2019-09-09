@@ -1,6 +1,7 @@
 package designpattern.compositepattern.restaurantMenu;
 
-import designpattern.iteratorpattern.prototype.Iterator;
+
+import java.util.Iterator;
 
 /**
  * 空迭代器
@@ -18,7 +19,8 @@ public class NullIterator implements Iterator {
     }
 
     @Override
-    public boolean remove() {
+    public void remove() {
         throw new UnsupportedOperationException();
     }
+
 }

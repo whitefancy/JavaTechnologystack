@@ -1,6 +1,6 @@
 package designpattern.compositepattern.restaurantMenu;
 
-import designpattern.iteratorpattern.prototype.Iterator;
+import java.util.Iterator;
 
 public class MenuItem extends MenuComponent {
     private String name;
