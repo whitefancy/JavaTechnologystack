@@ -1,4 +1,4 @@
-package leetcode.DFS;
+package leetcode.DFSBFS;
 
 import java.util.Arrays;
 
@@ -42,7 +42,7 @@ public class MineSweeper {
      * @param click
      * @return
      */
-    public char[][] updateBoard(char[][] board, int[] click) {
+    private char[][] updateBoard(char[][] board, int[] click) {
         if (board.length == 0 || board[0].length == 0) {
             return null;
         }

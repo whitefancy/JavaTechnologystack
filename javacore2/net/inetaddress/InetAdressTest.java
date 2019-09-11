@@ -1,11 +1,8 @@
 package javacore2.net.inetaddress;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * telnet time-a.nist.gov 13
@@ -23,8 +20,6 @@ public class InetAdressTest {
             System.out.println(address.getHostAddress());//127.0.0.1
 
         } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
