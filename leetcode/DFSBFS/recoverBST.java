@@ -1,6 +1,6 @@
 package leetcode.DFSBFS;
 
-import leetcode.tree.TreeBuilder;
+import leetcode.tree.BinaryTreeBuilder;
 import leetcode.tree.TreeNode;
 
 import java.util.ArrayList;
@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class recoverBST {
     public static void main(String[] args) {
-        TreeNode treeNode = new TreeBuilder().buildByArray("3,1,4,null,null,2");
+        TreeNode treeNode = BinaryTreeBuilder.buildByString("3,1,4,null,null,2");
         new recoverBST().recoverTree(treeNode);
-        System.out.println(new TreeBuilder().tree2Array(treeNode));
+        System.out.println(BinaryTreeBuilder.tree2ArrayString(treeNode, 6));
     }
 
     /**
@@ -32,7 +32,7 @@ public class recoverBST {
                 ans[0] = list.get(i - 1);
             }
         }
-        for (int i = list.size() - 1; i > 0; i++) {
+        for (int i = list.size() - 1; i > 0; i--) {
             if (list.get(i - 1).val > list.get(i).val) {
                 ans[1] = list.get(i);
             }
@@ -43,10 +43,12 @@ public class recoverBST {
     }
 
     private void inorder(TreeNode p, List<TreeNode> list) {
-        if (p.left != null)
+        if (p.left != null) {
             inorder(p.left, list);
+        }
         list.add(p);
-        if (p.right != null)
+        if (p.right != null) {
             inorder(p.right, list);
+        }
     }
 }
