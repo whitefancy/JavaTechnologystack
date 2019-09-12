@@ -3,6 +3,7 @@ package leetcode.DFSBFS;
 import java.util.List;
 
 public class Node {
+    public int $id;
     public int val;
     public List<Node> children;
 
