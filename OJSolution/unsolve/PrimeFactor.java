@@ -1,4 +1,4 @@
-package OJSolution.application.unsolve;
+package OJSolution.unsolve;
 
 import java.util.ArrayList;
 import java.util.Scanner;

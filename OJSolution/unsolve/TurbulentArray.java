@@ -1,4 +1,4 @@
-package OJSolution.application.unsolve;
+package OJSolution.unsolve;
 
 public class TurbulentArray {
     public void test() {
