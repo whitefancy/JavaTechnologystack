@@ -1,6 +1,6 @@
 package javacore;
 
-import leetcode.maths.WitchDay;
+import OJSolution.application.maths.WitchDay;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
