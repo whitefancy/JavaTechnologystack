@@ -1,4 +1,4 @@
-package OJSolution.feature;
+package OJSolution.feature.numbers;
 
 import java.util.ArrayList;
 import java.util.Collections;
