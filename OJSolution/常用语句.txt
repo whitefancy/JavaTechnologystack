@@ -1,4 +1,4 @@
-*bwftag  字符串解析 正负正数 状态ok
+*bwftag  字符串解析 套接字 状态ok
 bwftip
 bwfask
 *bwftag 网格 动态规划 状态失败
