@@ -35,7 +35,8 @@ public class MenuTestDrive {
                 "A large burrito ,with whole printo beans,salsa,guacamole",
                 true, 4.29));
         Waitress waitress = new Waitress(allMenus);
-        waitress.printMenu();
+        //waitress.printMenu();
+        waitress.printVegerarianMenu();
     }
 
     public void testCompositeIterator(Menu component) {

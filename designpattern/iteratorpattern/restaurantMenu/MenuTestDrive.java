@@ -11,7 +11,7 @@ public class MenuTestDrive {
         menus.add(pancakeHouseMenu);
         menus.add(dinerMenu);
         menus.add(cafeMenu);
-        Waitress waitress = new Waitress(menus);
+        Waitress waitress = new Waitress(pancakeHouseMenu, dinerMenu, cafeMenu);
         waitress.printMenu();
     }
 }

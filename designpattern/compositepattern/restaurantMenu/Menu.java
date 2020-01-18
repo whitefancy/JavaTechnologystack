@@ -30,7 +30,7 @@ public class Menu extends MenuComponent {
         System.out.println("-----------------");
         Iterator iterator = menuComponents.iterator();
         /*
-        树的先续遍历
+        树的先序遍历
          */
         while (iterator.hasNext()) {
             MenuComponent menuComponent = (MenuComponent) iterator.next();

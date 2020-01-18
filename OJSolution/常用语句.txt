@@ -1,4 +1,4 @@
-*bwftag  字符串解析 套接字 状态ok
+* bwftag  回文字符串 回溯 字符串分割 状态ok
 bwftip
 bwfask
 *bwftag 网格 动态规划 状态失败
@@ -19,7 +19,7 @@ bwftag 二叉树 无向图 一般特性 状态未知
 *bwftag  阈值 数据结构 超半数 状态ok
 *bwftag  字符串解析 版本号 比较大小 状态ok
 *bwftag  数学特性 十进制  最小数字 状态ok
-*bwftag  二进制 位运算 状态ok
+*bwftag  二进制 穷举 时分 状态ok
 
 
 

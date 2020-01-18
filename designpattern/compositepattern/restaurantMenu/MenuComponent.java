@@ -37,4 +37,8 @@ abstract class MenuComponent {
     MenuComponent getChild(int index) {
         throw new UnsupportedOperationException();
     }
+
+    Iterator createIterator() {
+        throw new UnsupportedOperationException();
+    }
 }
