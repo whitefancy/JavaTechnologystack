@@ -1,6 +1,6 @@
 package OJSolution.application.string;
 
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * 去掉%22 和ip地址信息，得到用户所在的公司关键词
@@ -12,7 +12,10 @@ public class CiscoUrl {
         while (sc.hasNext()) {
             String s = sc.nextLine();
             System.out.println(CiscoUrl.getURLName(s));
+            Map<String, String> map = new HashMap<>();
         }
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>();
     }
 
     private static String getURLName(String s) {

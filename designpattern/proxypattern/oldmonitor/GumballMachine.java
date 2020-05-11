@@ -1,4 +1,4 @@
-package designpattern.proxypattern;
+package designpattern.proxypattern.oldmonitor;
 
 /**
  * 糖果机 状态机
@@ -24,6 +24,14 @@ public class GumballMachine {
         if (count > 0) {
             state = GumballMachine.NO_QUARTER;
         }
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public int getCount() {
+        return count;
     }
 
     public String getLocation() {

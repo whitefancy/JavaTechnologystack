@@ -1,6 +1,8 @@
 package OJSolution.datastructure;
 
+import java.util.ArrayDeque;
 import java.util.LinkedHashMap;
+import java.util.Queue;
 
 /**
  * 模拟缓存区，最近最不常使用的先出
@@ -29,6 +31,9 @@ public class LRUdemo {
         cache.get(1);
         cache.get(3);
         cache.get(4);
+        ArrayDeque<Integer> queue = new ArrayDeque<>(10);
+        StringBuilder sb;
+
     }
 
     public int get(int key) {

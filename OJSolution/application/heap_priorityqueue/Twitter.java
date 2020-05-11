@@ -104,7 +104,7 @@ public class Twitter {
 }
 
 class Tweet {
-    int time;
+    public int time;
     private int tweetId;
 
     Tweet(int tweetId, int time) {
