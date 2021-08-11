@@ -23,4 +23,9 @@ public class ObjectFunctions {
         boolean k = s2 == "hello"; //false
         System.out.println(k);
     }
+    //Note：friendly 型：如果一个类、类属变量及方法不以public,protected,private这三种修饰符来修饰，它就是friendly类型的，
+    // 那么包内的任何类都可以访问它，而包外的任何类都不能访问它(包括包外继承了此类的子类)，
+    // 因此，这种类、类属变量及方法对包内的其他类是友好的，开放的，而对包外的其他类是关闭的。
+    //Java 8的接口，即便有了default method，还暂时无法完全替代抽象类。它不能拥有状态，只能提供公有虚方法的默认实现。Java 9的接口已经可以有非公有的静态方法了。未来的Java版本的接口可能会有更强的功能，或许能更大程度地替代原本需要使用抽象类的场景。例如说以前大家用ActionListener常常要傻乎乎地为一大堆方法提供空实现，如果 ActionListener 接口为所有方法都提供空的默认实现，就没这么蛋疼了，也不需要自己写个全部实现都是空方法的抽象类了。
+    //首先呢，接口的default methods只能是public。抽象类的abstract method可以是protected。
 }

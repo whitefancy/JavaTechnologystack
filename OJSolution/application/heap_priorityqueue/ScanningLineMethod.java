@@ -1,10 +1,12 @@
 package OJSolution.application.heap_priorityqueue;
 
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * 扫描线法
@@ -46,78 +48,78 @@ public class ScanningLineMethod {
      */
     private List<List<Integer>> getSkyline(int[][] buildings) {
         List<List<Integer>> ans = new ArrayList<>();
-        Comparator<Pair<Integer, Integer>> order = new Comparator<Pair<Integer, Integer>>() {
-            @Override
-            public int compare(Pair<Integer, Integer> o1, Pair<Integer, Integer> o2) {
-                if (o1.getKey() < o2.getKey()) {
-                    return -1;
-                } else if (o1.getKey() == o2.getKey()) {
-                    if (o1.getValue() > o2.getValue()) {
-                        return -1;
-                    } else if (o1.getValue() == o2.getValue()) {
-                        return 1;
-                    } else {
-                        return 1;
-                    }
-                } else {
-                    return 1;
-                }
-            }
-        };
-        if (buildings.length == 0) {
-            return ans;
-        }
-        PriorityQueue<Pair<Integer, Integer>> queue = new PriorityQueue<>(buildings.length * 2, order);
-        PriorityQueue<Integer> queue1 = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                if (o1 < o2) {
-                    return 1;
-                } else if (o1 == o2) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            }
-        });
-        for (int i = 0; i < buildings.length; i++) {
-            int[] bu = buildings[i];
-            queue.offer(new Pair<>(bu[0], bu[2]));
-            queue.offer(new Pair<>(bu[1], -bu[2]));
-        }
-        int now = -1;
-        while (!queue.isEmpty()) {
-            Pair<Integer, Integer> pair = queue.poll();
-            int h = pair.getValue();
-            int p = pair.getKey();
-            if (h >= 0) {
-                queue1.offer(h);
-                if (queue1.peek() != now) {
-                    List<Integer> list = new ArrayList<>(2);
-                    list.add(p);
-                    list.add(queue1.peek());
-                    ans.add(list);
-                    now = queue1.peek();
-                }
-            } else {
-                queue1.remove(-h);
-                if (queue1.isEmpty() || queue1.peek() != now) {
-                    if (queue1.isEmpty()) {
-                        List<Integer> list = new ArrayList<>(2);
-                        list.add(p);
-                        list.add(0);
-                        ans.add(list);
-                        now = 0;
-                    } else {
-                        List<Integer> list = new ArrayList<>(2);
-                        list.add(p);
-                        list.add(queue1.peek());
-                        ans.add(list);
-                        now = queue1.peek();
-                    }
-                }
-            }
-        }
+//        Comparator<Pair<Integer, Integer>> order = new Comparator<Pair<Integer, Integer>>() {
+//            @Override
+//            public int compare(Pair<Integer, Integer> o1, Pair<Integer, Integer> o2) {
+//                if (o1.getKey() < o2.getKey()) {
+//                    return -1;
+//                } else if (o1.getKey() == o2.getKey()) {
+//                    if (o1.getValue() > o2.getValue()) {
+//                        return -1;
+//                    } else if (o1.getValue() == o2.getValue()) {
+//                        return 1;
+//                    } else {
+//                        return 1;
+//                    }
+//                } else {
+//                    return 1;
+//                }
+//            }
+//        };
+//        if (buildings.length == 0) {
+//            return ans;
+//        }
+//        PriorityQueue<Pair<Integer, Integer>> queue = new PriorityQueue<>(buildings.length * 2, order);
+//        PriorityQueue<Integer> queue1 = new PriorityQueue<>(new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer o1, Integer o2) {
+//                if (o1 < o2) {
+//                    return 1;
+//                } else if (o1 == o2) {
+//                    return 0;
+//                } else {
+//                    return -1;
+//                }
+//            }
+//        });
+//        for (int i = 0; i < buildings.length; i++) {
+//            int[] bu = buildings[i];
+//            queue.offer(new Pair<>(bu[0], bu[2]));
+//            queue.offer(new Pair<>(bu[1], -bu[2]));
+//        }
+//        int now = -1;
+//        while (!queue.isEmpty()) {
+//            Pair<Integer, Integer> pair = queue.poll();
+//            int h = pair.getValue();
+//            int p = pair.getKey();
+//            if (h >= 0) {
+//                queue1.offer(h);
+//                if (queue1.peek() != now) {
+//                    List<Integer> list = new ArrayList<>(2);
+//                    list.add(p);
+//                    list.add(queue1.peek());
+//                    ans.add(list);
+//                    now = queue1.peek();
+//                }
+//            } else {
+//                queue1.remove(-h);
+//                if (queue1.isEmpty() || queue1.peek() != now) {
+//                    if (queue1.isEmpty()) {
+//                        List<Integer> list = new ArrayList<>(2);
+//                        list.add(p);
+//                        list.add(0);
+//                        ans.add(list);
+//                        now = 0;
+//                    } else {
+//                        List<Integer> list = new ArrayList<>(2);
+//                        list.add(p);
+//                        list.add(queue1.peek());
+//                        ans.add(list);
+//                        now = queue1.peek();
+//                    }
+//                }
+//            }
+//        }
         List<List<Integer>> filt = new ArrayList<>(ans.size());
         for (int i = 0; i < ans.size() - 1; i++) {
             if (!ans.get(i).get(0).equals(ans.get(i + 1).get(0))) {

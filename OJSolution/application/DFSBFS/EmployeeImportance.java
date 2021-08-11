@@ -1,20 +1,20 @@
 package OJSolution.application.DFSBFS;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.core.JsonProcessingException;
+//import com.fasterxml.jackson.core.type.TypeReference;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
 public class EmployeeImportance {
-    public static void main(String[] args) throws JsonProcessingException {
-        String json = "[{\"id\" : 1,\"importance\" :5,\"subordinates\" : [2, 3]}, {\"id\" : 2, \"importance\" :3, \"subordinates\" :[]}, {\"id\" : 3,\"importance\" : 3,\"subordinates\" : []}]";
-        ObjectMapper objectMapper = new ObjectMapper();
-        Employee[] employees1 = objectMapper.readValue(json, Employee[].class);
-        List<Employee> employees = objectMapper.readValue(json, new TypeReference<List<Employee>>() {
-        });
-        System.out.println(new EmployeeImportance().getImportance(employees, 1));
-    }
+//    public static void main(String[] args) throws JsonProcessingException {
+//        String json = "[{\"id\" : 1,\"importance\" :5,\"subordinates\" : [2, 3]}, {\"id\" : 2, \"importance\" :3, \"subordinates\" :[]}, {\"id\" : 3,\"importance\" : 3,\"subordinates\" : []}]";
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        Employee[] employees1 = objectMapper.readValue(json, Employee[].class);
+//        List<Employee> employees = objectMapper.readValue(json, new TypeReference<List<Employee>>() {
+//        });
+//        System.out.println(new EmployeeImportance().getImportance(employees, 1));
+//    }
 
     private int getImportance(List<Employee> employees, int id) {
         int count = 0;
