@@ -84,5 +84,43 @@ public class portModify {
     //@Configuration
     //@ComponentScan
     //@EnableAutoConfiguration
-    //其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 @Import 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
+    //其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 @Import 注解导入了AutoConfigurationImportSelector，
+    // 在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，
+    // 实现自动配置功能！
+
+    //8、Spring Boot 如何设置支持跨域请求？
+    //现代浏览器出于安全的考虑， HTTP 请求时必须遵守同源策略，否则就是跨域的 HTTP 请求，默认情况下是被禁止的，IP（域名）不同、或者端口不同、协议不同（比如 HTTP、HTTPS）都会造成跨域问题。
+    //一般前端的解决方案有：
+    //① 使用 JSONP 来支持跨域的请求，JSONP 实现跨域请求的原理简单的说，就是动态创建<script>标签，然后利用<script>的 SRC 不受同源策略约束来跨域获取数据。缺点是需要后端配合输出特定的返回信息。
+    //② 利用反应代理的机制来解决跨域的问题，前端请求的时候先将请求发送到同源地址的后端，通过后端请求转发来避免跨域的访问。
+    //后来 HTML5 支持了 CORS 协议。CORS 是一个 W3C 标准，全称是”跨域资源共享”（Cross-origin resource sharing），允许浏览器向跨源服务器，发出 XMLHttpRequest 请求，从而克服了 AJAX 只能同源使用的限制。它通过服务器增加一个特殊的 Header[Access-Control-Allow-Origin]来告诉客户端跨域的限制，如果浏览器支持 CORS、并且判断 Origin 通过的话，就会允许 XMLHttpRequest 发起跨域请求。
+    //前端使用了 CORS 协议，就需要后端设置支持非同源的请求，Spring Boot 设置支持非同源的请求有两种方式。
+    //第一，配置 CorsFilter。
+    //@Configuration
+    //public class GlobalCorsConfig {
+    //@Bean
+    //public CorsFilter corsFilter() {
+    //CorsConfiguration config = new CorsConfiguration();
+    //config.addAllowedOrigin("*");
+    //config.setAllowCredentials(true);
+    //config.addAllowedMethod("*");
+    //config.addAllowedHeader("*");
+    //config.addExposedHeader("*");
+    //UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
+    //configSource.registerCorsConfiguration("/**", config);
+    //return new CorsFilter(configSource);
+    //}
+    //}
+    //需要配置上述的一段代码。第二种方式稍微简单一些。
+    //第二，在启动类上添加：
+    //public class Application extends WebMvcConfigurerAdapter {
+    //@Override
+    //public void addCorsMappings(CorsRegistry registry) {
+    //registry.addMapping("/**")
+    //.allowCredentials(true)
+    //.allowedHeaders("*")
+    //.allowedOrigins("*")
+    //.allowedMethods("*");
+    //}
+    //}
 }
