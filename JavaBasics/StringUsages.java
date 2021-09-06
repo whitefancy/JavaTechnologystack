@@ -1,6 +1,10 @@
 package JavaBasics;
 
+import java.util.Date;
+import java.util.Locale;
+
 public class StringUsages {
+
     //String 方法
     //下面是 String 类支持的方法，更多详细，参看 Java String API 文档:
     //SN(序号)	方法描述
@@ -153,6 +157,56 @@ public class StringUsages {
     //15	String toString()
     //返回此序列中数据的字符串表示形式。
     public static void main(String[] args) {
+//            String类的format()方法用于创建格式化的字符串以及连接多个字符串对象。熟悉C语言的同学应该记得C语言的sprintf()方法，两者有类似之处。format()方法有两种重载形式。
+//
+//format(String format, Object... args) 新字符串使用本地语言环境，制定字符串格式和参数生成格式化的新字符串。
+//
+//format(Locale locale, String format, Object... args) 使用指定的语言环境，制定字符串格式和参数生成格式化的字符串。
+        String str = null;
+        str = String.format("Hi,%s", "张三");
+        System.out.println(str);
+        str = String.format("Hi,%s:%s.%s", "张三", "李四", "王五");
+        System.out.println(str);
+        String.format("%.1f", 34.543);
+        Date date = new Date();
+        //b的使用，月份简称
+        str = String.format(Locale.US, "英文月份简称：%tb", date);
+        System.out.println(str);
+        System.out.printf("本地月份简称：%tb%n", date);
+        //B的使用，月份全称
+        str = String.format(Locale.US, "英文月份全称：%tB", date);
+        System.out.println(str);
+        System.out.printf("本地月份全称：%tB%n", date);
+        //a的使用，星期简称
+        str = String.format(Locale.US, "英文星期的简称：%ta", date);
+        System.out.println(str);
+        //A的使用，星期全称
+        System.out.printf("本地星期的简称：%tA%n", date);
+        //C的使用，年前两位
+        System.out.printf("年的前两位数字（不足两位前面补0）：%tC%n", date);
+        //y的使用，年后两位
+        System.out.printf("年的后两位数字（不足两位前面补0）：%ty%n", date);
+        //j的使用，一年的天数
+        System.out.printf("一年中的天数（即年的第几天）：%tj%n", date);
+        //m的使用，月份
+        System.out.printf("两位数字的月份（不足两位前面补0）：%tm%n", date);
+        //d的使用，日（二位，不够补零）
+        System.out.printf("两位数字的日（不足两位前面补0）：%td%n", date);
+        //e的使用，日（一位不补零）
+        System.out.printf("月份的日（前面不补0）：%te", date);
+        //$使用
+        str = String.format("格式参数$的使用：%1$d,%2$s", 99, "abc");
+        System.out.println(str);
+        //+使用
+        System.out.printf("显示正负数的符号：%+d与%d%n", 99, -99);
+        //补O使用
+        System.out.printf("最牛的编号是：%03d%n", 7);
+        //空格使用
+        System.out.printf("Tab键的效果是：% 8d%n", 7);
+        //.使用
+        System.out.printf("整数分组的效果是：%,d%n", 9989997);
+        //空格和小数点后面个数
+        System.out.printf("一本书的价格是：% 50.5f元%n", 49.8);
 //        如果您使用StringBuilder，StringBuffer，则它们是可变的String，并且您的值将在更改时进行修改。
 //        当您深入研究时，Java String会带来许多令人困惑的理解。当使用“ ==”时，2个具有相同值的不同字符串将返回该内存地址的相同引用。例如。
         String a1 = "abc";
