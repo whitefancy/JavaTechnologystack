@@ -68,11 +68,11 @@ public class ListArray {
         String[] myArray2 = {"3"};
 //        不要在 foreach 循环里进行元素的 remove/add 操作
 //        如何正确的将数组转换为ArrayList?
-        List list11 = new ArrayList<>(Arrays.asList("a", "b", "c"));
-        List myList8 = Arrays.stream(myArray2).boxed().collect(Collectors.toList());
-        Object[] myArray;
-        List myList = Arrays.stream(myArray).collect(Collectors.toList());
-        List<String> l18 = Lists.newArrayList(anotherListOrCollection); // from collection
+//        List list11 = new ArrayList<>(Arrays.asList("a", "b", "c"));
+//        List myList8 = Arrays.stream(myArray2).boxed().collect(Collectors.toList());
+//        Object[] myArray;
+//        List myList = Arrays.stream(myArray).collect(Collectors.toList());
+//        List<String> l18 = Lists.newArrayList(anotherListOrCollection); // from collection
 
 
         return b;//b.return

@@ -26,9 +26,10 @@ public class Singleton1 {
     public static synchronized Singleton1 getInstance() {/*用getInstance（）方法 实例化对象，并返回这个实例
         如果不需要这个实例，它拥有不会产生--延迟实例化
         */
-        if (Singleton1.uniqueInstance == null) {
-            Singleton1.uniqueInstance = new Singleton1();
+        if (Singleton1.uniqueInstance != null) {
+            return Singleton1.uniqueInstance;
         }
+        Singleton1.uniqueInstance = new Singleton1();
         //Singleton是一个正常的嘞，具有其他实例变量和方法
         return Singleton1.uniqueInstance;
     }

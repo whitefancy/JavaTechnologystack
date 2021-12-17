@@ -1,13 +1,12 @@
 package Versions.jdk11;
 
-import org.junit.Test;
 
 import java.util.function.Consumer;
 
 public class Main {
     //2、增加一些实用的API 字符串自带方法
 //自JDK9和JDK10都为java增加了许多的API，如今JDK11又增加了许多字符串自带方法，如下
-    @Test
+
     public void contextLoads() {
         String str = "woshidage";
         boolean isblank = str.isBlank(); //判断字符串是空白

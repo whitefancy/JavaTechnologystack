@@ -20,6 +20,7 @@ public class Singleton2 {
 
     public static Singleton2 getInstance() {
         //Singleton是一个正常的嘞，具有其他实例变量和方法
-        return Singleton2.uniqueInstance;
+        Singleton2 uniqueInstance = Singleton2.uniqueInstance;
+        return uniqueInstance;
     }
 }

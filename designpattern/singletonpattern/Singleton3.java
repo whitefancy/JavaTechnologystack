@@ -23,11 +23,12 @@ public class Singleton3 {
         但是要把Singleton声明成volatile的，因为当初始化成实例时，多个线程要都被通知
         volatile关键字只在java5之后才是有效的双重锁
         */
-        if (Singleton3.uniqueInstance == null) {
-            synchronized (Singleton3.class) {
-                if (Singleton3.uniqueInstance == null) {
-                    Singleton3.uniqueInstance = new Singleton3();
-                }
+        if (Singleton3.uniqueInstance != null) {
+            return Singleton3.uniqueInstance;
+        }
+        synchronized (Singleton3.class) {
+            if (Singleton3.uniqueInstance == null) {
+                Singleton3.uniqueInstance = new Singleton3();
             }
         }
         //Singleton是一个正常的嘞，具有其他实例变量和方法
