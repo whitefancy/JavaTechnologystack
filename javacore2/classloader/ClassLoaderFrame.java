@@ -3,6 +3,7 @@ package javacore2.classloader;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -31,8 +32,14 @@ public class ClassLoaderFrame extends JFrame {
             Class<?> c = loader.loadClass(name);
             Method m = c.getMethod("main", String[].class);
             m.invoke(null, (Object) new String[]{});
-        } catch (Throwable e) {
-            JOptionPane.showMessageDialog(this, e);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

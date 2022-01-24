@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 public class ArrayDemo {
     private ArrayDemo() {
+
+    }
+
+    private void test() {
         //数组copy，两个变量引用同一个数组
         int[] smallPrimes = new int[]{2, 3, 5, 7, 11};
         int[] luckyNumbers = smallPrimes;
@@ -43,6 +47,6 @@ public class ArrayDemo {
 
     //main方法的第一个参数不是函数名，而是真正传入的第一个参数，与c语言不同
     public static void main(String[] args) {
-        new ArrayDemo();
+        new ArrayDemo().test();
     }
 }
