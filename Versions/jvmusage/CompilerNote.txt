@@ -1,0 +1,380 @@
+本章主要目的是描述虚拟机的编译过程。
+本章用于示例编译器是如何与Java虚拟机协同工作的。有助于理解Java虚拟机本身。
+只涉及把Jva语言编写的源代码编译为Java虚拟机指令集的编译器。
+
+格式说明
+汇编代码的指令格式：
+        int j = 242442;
+
+    Code:
+      stack=1, locals=2, args_size=1
+         0: ldc           #7                  // int 242442
+         2: istore_1       //在指令流中直接跟在指令后面，而不是在操作数栈中的操作数，称为直接操作数（立即操作数）
+         3: return
+
+<index><opcode>[<operand1>[<operand2>...]][<comment>]
+<index>是指令操作码在数组中的下标.该数组以字节形式来存储当前方法在java虚拟机代码。也可以认为<index>是相对于方法起始处的字节偏移量。
+每条指令前的<index>可以作为控制转移指令（control transfer instruction)的跳转目标。
+Java虚拟机的控制转移指令的实际操作数是在当前指令的操作码集合中的地址偏移量。
+<opcode>为指令操作码的助记符号。
+<operand1>是操作数
+<comment>是行尾的注释。一部分是javap自动加入，其余是作者手动添加
+每一行中，表示运行时常量池索引的操作数前，会有'#',在指令后的注释中，会带有对这个操作数的描述。
+
+常量、局部变量和控制结构的使用
+
+        for (int i = 0; i < 100; i++) {
+            ;
+        }
+
+    Code:
+      stack=2, locals=2, args_size=1
+         0: iconst_0     //把int类型的0指压入操作数栈 指令iconst_<i>可以压入的int常量为 -1,0,1,2,3,4,5 好处是避免了操作数的读取和解析，也不需要为入栈操作保存直接操作数的值。隐式操作数的编译码会减少1个字节的长度，使得编译后的代码更简洁高效。
+         1: istore_1       //从操作数栈中弹出一个int类型的指，保存在第一个局部变量中。局部变量的编号从0开始。
+         2: iload_1        //将第一个局部变量的值压入操作数栈
+         3: bipush        100     //将int类型的100压入操作数栈
+         5: if_icmpge     14         //弹出两个操作数进行比较，不满足则转移到14继续执行，满足则执行下一条指令。
+         8: iinc          1, 1       //对局部变量加上一个长度为1字节的有符号递增量。iinc指令很适合实现循环结构
+        11: goto          2
+        14: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            2      12     1     i   I
+            0      15     0  args   [Ljava/lang/String;
+Java虚拟机是基于栈结构设计的，大多数操作是从当前栈帧的操作数栈取出一个或多个操作数，或将结果压入操作数栈中。
+每调用一个方法，就会创建一个新的栈帧，并创建对应方法所需的操作数栈和局部变量表。
+每个线程在运行的任意时刻，都会包含若干个由嵌套方法调用而产生的栈帧，同时也会包含等量的操作数栈，只有当前栈帧的操作数栈才是活动的。
+
+
+如果是非int类型的循环器。
+        for (double i = 0; i < 100; i++) {
+            ;
+        }
+
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Double             100.0d         //double类型数值占用两个局部变量的空间，只能通过索引较小的一个进行访问
+   #9 = Class              #10            // Versions/jvmusage/Test
+
+    Code:
+      stack=4, locals=3, args_size=1
+         0: dconst_0
+         1: dstore_1
+         2: dload_1
+         3: ldc2_w        #7                  // double 100.0d   每一行中，表示运行时常量池索引的操作数前，会有'#',在指令后的注释中，会带有对这个操作数的描述。
+         6: dcmpg                   //double类型数值没有直接比较大小（int中的 if_icmplt）的指令，必须在dcmgp指令后面追加ifge指令来实现
+         7: ifge          17               // 对int的支持多是因为操作频繁。
+        10: dload_1                       //如何使用（以及重用）局部变量，由编译器的开发者来决定，由于有了专门定制的load和store指令，编译器开发者应尽可能多地重用局部变量，占用内存（当前栈帧的空间）更少。
+        11: dconst_1
+        12: dadd
+        13: dstore_1
+        14: goto          2
+        17: return
+
+对double类型数值的访问
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Double             0.3d
+   #9 = Double             0.4d
+  #11 = Class              #12            // Versions/jvmusage/Test
+    Code:
+      stack=4, locals=5, args_size=1
+         0: ldc2_w        #7                  // double 0.3d
+         3: dstore_1
+         4: ldc2_w        #9                  // double 0.4d
+         7: dstore_3
+         8: dload_1       //double类型数值占用两个局部变量的空间，只能通过索引较小的一个进行访问
+         9: dload_3        //double类型数值占用两个局部变量的空间，只能通过索引较小的一个进行访问
+        10: dadd
+        11: dstore_3
+        12: return
+
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0  args   [Ljava/lang/String;
+            4       9     1    d1   D               //double类型数值占用两个局部变量的空间，只能通过索引较小的一个进行访问
+            8       5     3    d2   D
+
+对于byte，char，short类型的数据，均可以用int的指令来操作，唯一额外的代价是将操作结果截短到它们的有效范围
+        for (short i = 0; i < 100; i++) {
+            ;
+        }
+
+    Code:
+      stack=2, locals=2, args_size=1
+         0: iconst_0
+         1: istore_1
+         2: iload_1
+         3: bipush        100
+         5: if_icmpge     16
+         8: iload_1
+         9: iconst_1     //对于byte，char，short类型的数据，均可以用int的指令来操作，唯一额外的代价是将操作结果截短到它们的有效范围
+        10: iadd
+        11: i2s         //对于byte，char，short类型的数据，均可以用int的指令来操作，唯一额外的代价是将操作结果截短到它们的有效范围
+        12: istore_1
+        13: goto          2
+        16: return
+
+
+算术运算
+        int i = 18;
+        int grain = 5;
+        //将int值对齐到某个2的幂
+        int a = ((i + grain - 1) & ~(grain - 1));
+
+    Code:
+      stack=3, locals=4, args_size=1
+         0: bipush        18
+         2: istore_1
+         3: iconst_5
+         4: istore_2
+         5: iload_1
+         6: iload_2
+         7: iadd
+         8: iconst_1
+         9: isub
+        10: iload_2
+        11: iconst_1
+        12: isub
+        13: iconst_m1      //把-1压入操作数栈
+        14: ixor            // ～x == -1^x
+        15: iand
+        16: istore_3
+        17: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      18     0  args   [Ljava/lang/String;
+            3      15     1     i   I
+            5      13     2 grain   I
+           17       1     3     a   I
+
+访问运行时常量池
+很多数值常量、对象、字段和方法，通过当前类的运行时常量池进行访问。
+    void Test() {
+        int i = 100;
+        int j = 100000;
+        long l1 = 1;
+        long l2 = 0xffffff;
+        double d = 2.2;
+        String s = "test";
+    }
+
+
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Integer            100000
+   #8 = Long               16777215l
+  #10 = Double             2.2d
+  #12 = String             #13            // test
+  #13 = Utf8               test
+  #14 = Class              #15            // Versions/jvmusage/Test
+ Code:
+      stack=2, locals=10, args_size=1
+         0: bipush        100             // byte,char,short型的整数常量，以及比较小的int，可以用 bipush，sipush或 iconst_指令来编译
+         2: istore_1
+         3: ldc           #7                  // int 100000     int,long,float,double,string的引用 类型的用ldc指令来管理 当运行时常量池中的条目过多时，需要用ldc_w指令来取代ldc指令来访问常量池
+         5: istore_2
+         6: lconst_1              // byte,char,short型的整数常量，以及比较小的int，可以用 bipush，sipush或 iconst_指令来编译
+         7: lstore_3
+         8: ldc2_w        #8                  // long 16777215l    多于一个字节的long或double，使用  ldc2_w指令来访问
+        11: lstore        5
+        13: ldc2_w        #10                 // double 2.2d
+        16: dstore        7
+        18: ldc           #12                 // String test
+        20: astore        9
+        22: return
+
+
+与控制结构有关的更多示例
+        int i = 0;
+        while (i < 100) {
+            i++;
+        }
+
+    Code:
+      stack=2, locals=2, args_size=1
+         0: iconst_0
+         1: istore_1
+         2: iload_1
+         3: bipush        100
+         5: if_icmpge     14       //在首轮迭代之前，做判断
+         8: iinc          1, 1
+        11: goto          2
+        14: return
+
+        double i = 0.0;
+        while (i < 100.1) {
+            i++;
+        }
+
+    Code:
+      stack=4, locals=3, args_size=1
+         0: dconst_0          //double小数据的直接数指令
+         1: dstore_1
+         2: dload_1
+         3: ldc2_w        #7                  // double 100.1d
+         6: dcmpg                   //浮点数的if比较需要至少两条指令
+         7: ifge          17
+        10: dload_1
+        11: dconst_1
+        12: dadd
+        13: dstore_1
+        14: goto          2
+        17: return
+
+
+    public static int test() {
+        double i = 0.0;
+        if (i < 100.1) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    Code:
+      stack=4, locals=2, args_size=0
+         0: dconst_0
+         1: dstore_0
+         2: dload_0
+         3: ldc2_w        #7                  // double 100.1d
+         6: dcmpg
+         7: ifge          12
+        10: iconst_1     //如果d不是NaN 并且 小于100， 那么 dcmpg指令会将int类型值1压入操作数栈
+        11: ireturn
+        12: iconst_m1
+        13: ireturn
+
+     public static int test(double i) {
+         if (i > 100.1) {
+             return 1;
+         } else {
+             return -1;
+         }
+     }
+
+    Code:
+      stack=4, locals=2, args_size=1
+         0: dload_0              //从本地变量表读取 第0个本地变量，压入操作数栈
+         1: ldc2_w        #7                  // double 100.1d
+         4: dcmpl
+         5: ifle          10
+         8: iconst_1
+         9: ireturn
+        10: iconst_m1        // 如果不满足比较调节，跳入第10 条分支语句，将-1压入操作数栈，然后返回int类型的正确返回
+        11: ireturn
+
+
+接收参数
+如果传递了n个参数给某个方法，当前栈帧会按照约定，依参数传递的顺序来接收参数，保存在局部变量表里。
+实例方法保存到第1个至第n个局部变量之中。类方法保存在编号为0到n-1个局部变量之中
+    public static int test(int i, int j) {
+        return i + j;
+    }
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_0
+         1: iload_1
+         2: iadd
+         3: ireturn
+      LineNumberTable:
+        line 5: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       4     0     i   I
+            0       4     1     j   I
+
+    void Test(int i, int j) {
+        int a = i + j;
+    }
+    Code:
+      stack=2, locals=4, args_size=3
+         0: iload_1
+         1: iload_2
+         2: iadd
+         3: istore_3
+         4: return
+      LineNumberTable:
+        line 9: 0
+        line 10: 4
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   LVersions/jvmusage/Test;
+            0       5     1     i   I
+            0       5     2     j   I
+            4       1     3     a   I
+
+
+
+
+方法调用
+        Test.test(5, 6);
+        new Test(-1, -2);
+    Code:
+      stack=4, locals=1, args_size=1
+         0: iconst_5
+         1: bipush        6
+         3: invokestatic  #7                  // Method test:(II)I  静态方法调用 先把需要的参数压入操作数栈
+         6: pop
+         7: new           #8                  // class Versions/jvmusage/Test
+        10: dup
+        11: iconst_m1
+        12: bipush        -2
+        14: invokespecial #13                 // Method "<init>":(II)V  实例方法调用，先把需要的参数压入操作数栈
+        17: pop                                 //因为没有变量接收返回值 因此将结果弹出
+        18: return
+
+父类方法调用
+public Test(int i, int j) {
+        int a = super.test1(i, j);
+        a = test1(i, j);
+    }
+    public int test1(int i, int j) {
+        return i + j + 3;
+    }
+}
+
+class TB {
+    public TB() {
+
+    }
+
+    public int test1(int i, int j) {
+        return i + j;
+    }
+}
+
+    Code:
+      stack=3, locals=4, args_size=3
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V 加载第0个局部变量this，然后调用父类的构造方法
+         4: aload_0
+         5: iload_1
+         6: iload_2
+         7: invokespecial #7                  // Method Versions/jvmusage/TB.test1:(II)I 加载第0个局部变量this，然后调用父类的普通方法
+        10: istore_3
+        11: aload_0
+        12: iload_1
+        13: iload_2
+        14: invokevirtual #11                 // Method test1:(II)I 加载第0个局部变量this，然后查找正确的实现
+        17: istore_3
+        18: return
+
+由于在解析方法的时候有特殊设计，在描述符中的类型名称可以正确解析，那么invokevirtual指令总能通过调用java.lang.invoke.MethodHandle的 invokeExact 或invoke方法而链接到正确的目标。
+
+使用类实例
