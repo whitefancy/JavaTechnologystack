@@ -378,3 +378,440 @@ class TB {
 由于在解析方法的时候有特殊设计，在描述符中的类型名称可以正确解析，那么invokevirtual指令总能通过调用java.lang.invoke.MethodHandle的 invokeExact 或invoke方法而链接到正确的目标。
 
 使用类实例
+public class Test extends TB {
+
+    public Test test1(int i, int j) {
+        return new Test();
+    }
+
+    public static void main(String[] args) {
+        new Test();
+    }
+}
+
+class TB {
+
+}
+Constant pool:
+   #1 = Methodref          #2.#3          // Versions/jvmusage/TB."<init>":()V
+   #2 = Class              #4             // Versions/jvmusage/TB
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               Versions/jvmusage/TB
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Class              #8             // Versions/jvmusage/Test
+   #8 = Utf8               Versions/jvmusage/Test
+   #9 = Methodref          #7.#3          // Versions/jvmusage/Test."<init>":()V
+  #10 = Utf8               Code
+  #11 = Utf8               LineNumberTable
+  #12 = Utf8               LocalVariableTable
+  #13 = Utf8               this
+  #14 = Utf8               LVersions/jvmusage/Test;
+  #15 = Utf8               test1
+  #16 = Utf8               (II)LVersions/jvmusage/Test;
+  #17 = Utf8               i
+  #18 = Utf8               I
+  #19 = Utf8               j
+  #20 = Utf8               main
+  #21 = Utf8               ([Ljava/lang/String;)V
+  #22 = Utf8               args
+  #23 = Utf8               [Ljava/lang/String;
+  #24 = Utf8               SourceFile
+  #25 = Utf8               Test.java
+    Code:
+      stack=2, locals=3, args_size=3
+         0: new           #7                  // class Versions/jvmusage/Test
+         3: dup
+         4: invokespecial #9                  // Method "<init>":()V 构造函数以一个由编译器提供的名为<init>的方法出现 多个构造函数对应多个实例化方法
+         7: areturn
+
+把类实例新建好，并将其实例变量（包括本类及其全部父类所定义的每个实例变量）都初始化为各自的默认值后，调用这个类实例的实例初始化方法。
+    int i;
+
+    public Test() {
+        i = 1;
+        int a = i;
+    }
+    Code:
+      stack=2, locals=2, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V
+         4: aload_0
+         5: iconst_1
+         6: putfield      #7                  // Field i:I   类实例的字段使用 putfield 和 getfield访问
+         9: aload_0
+        10: getfield      #7                  // Field i:I 指令的操作数不代表该字段在类实例中的偏移量，编译器为实例的这些字段生成符号引用，并保存在运行时常量池内。这些运行时常量池项在执行截断解析为受引用对象中的真实字段位置
+        13: istore_1
+        14: return
+
+数组
+    public Test() {
+        int buffer[];
+        int bufsz = 100;
+        int value = 12;
+        buffer = new int[bufsz];
+        buffer[10] = value;
+        value = buffer[11];
+    }
+    Code:
+      stack=3, locals=4, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V
+         4: bipush        100
+         6: istore_2
+         7: bipush        12
+         9: istore_3
+        10: iload_2
+        11: newarray       int  //创建数组对象
+        13: astore_1
+        14: aload_1
+        15: bipush        10
+        17: iload_3
+        18: iastore
+        19: aload_1
+        20: bipush        11
+        22: iaload
+        23: istore_3
+        24: return
+
+    public Test() {
+        Thread threads[];
+        int count = 10;
+        threads = new Thread[count];
+        threads[0] = new Thread();
+    }
+    Code:
+      stack=4, locals=3, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V
+         4: bipush        10
+         6: istore_2
+         7: iload_2
+         8: anewarray     #7                  // class java/lang/Thread  创建多维数组的第一维
+        11: astore_1
+        12: aload_1
+        13: iconst_0
+        14: new           #7                  // class java/lang/Thread
+        17: dup
+        18: invokespecial #9                  // Method java/lang/Thread."<init>":()V
+        21: aastore
+        22: return
+
+    public Test() {
+        int grid[][][];
+        grid = new int[10][5][];
+    }
+    Code:
+      stack=2, locals=2, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V
+         4: bipush        10
+         6: iconst_5
+         7: multianewarray #7,  2             // class "[[[I"  一次性创建多维数组
+        11: astore_1
+        12: return
+
+编译switch语句
+    public static int test1(int i, int j) {
+        switch (i) {
+            case 0:
+                return 0;
+            case 1:
+                return 1;
+            case 3:
+                return 2;
+        }
+        return -1;
+    }
+    Code:
+      stack=1, locals=2, args_size=2
+         0: iload_0
+         1: tableswitch   { // 0 to 3
+                       0: 32
+                       1: 34
+                       2: 38
+                       3: 36
+                 default: 38
+            }
+        32: iconst_0
+        33: ireturn
+        34: iconst_1
+        35: ireturn
+        36: iconst_2
+        37: ireturn
+        38: iconst_m1
+        39: ireturn
+
+    public static int test1(String i, int j) {
+        switch (i) {
+            case "0":
+                return 0;
+            case "1":
+                return 1;
+            case "2":
+                return 2;
+            default:
+                return -1;
+        }
+    }
+    Code:
+      stack=2, locals=4, args_size=2
+         0: aload_0
+         1: astore_2
+         2: iconst_m1
+         3: istore_3
+         4: aload_2
+         5: invokevirtual #7                  // Method java/lang/String.hashCode:()I
+         8: tableswitch   { // 48 to 50
+                      48: 36
+                      49: 50
+                      50: 64
+                 default: 75
+            }
+        36: aload_2
+        37: ldc           #13                 // String 0
+        39: invokevirtual #15                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        42: ifeq          75
+        45: iconst_0
+        46: istore_3
+        47: goto          75
+        50: aload_2
+        51: ldc           #19                 // String 1
+        53: invokevirtual #15                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        56: ifeq          75
+        59: iconst_1
+        60: istore_3
+        61: goto          75
+        64: aload_2
+        65: ldc           #21                 // String 2
+        67: invokevirtual #15                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        70: ifeq          75
+        73: iconst_2
+        74: istore_3
+        75: iload_3
+        76: tableswitch   { // 0 to 2
+                       0: 104
+                       1: 106
+                       2: 108
+                 default: 110
+            }
+       104: iconst_0
+       105: ireturn
+       106: iconst_1
+       107: ireturn
+       108: iconst_2
+       109: ireturn
+       110: iconst_m1
+       111: ireturn
+
+    public static int test1(int i, int j) {
+        switch (i) {
+            case 100:
+                return 0;
+            case -1:
+                return 1;
+            case 200:
+                return 2;
+        }
+        return -1;
+    }
+    Code:
+      stack=1, locals=2, args_size=2
+         0: iload_0
+         1: lookupswitch  { // 3
+                      -1: 38
+                     100: 36
+                     200: 40
+                 default: 42
+            }
+        36: iconst_0
+        37: ireturn
+        38: iconst_1
+        39: ireturn
+        40: iconst_2
+        41: ireturn
+        42: iconst_m1
+        43: ireturn
+
+tableswitch 和lookupswitch都只能支持int类型的条件值。当分支条件值比较稀疏时，tableswitch指令的空间使用率偏低，可以用lookupswitch代替。
+Java虚拟机规定，lookupswitch指令的索引表必须根据键值排序。这样比直接线性扫描更有效率。
+使用操作数栈
+    static int i;
+    public static int test1(int j) {
+        return i++;
+    }
+    Code:
+      stack=3, locals=1, args_size=1
+         0: getstatic     #7                  // Field i:I
+         3: dup
+         4: iconst_1
+         5: iadd
+         6: putstatic     #7                  // Field i:I
+         9: ireturn
+
+抛出异常和处理异常
+    public static void test1(int j) throws Exception {
+        if (j == 0) {
+            throw new Exception("test");
+        }
+    }
+    Code:
+      stack=3, locals=1, args_size=1
+         0: iload_0
+         1: ifne          14
+         4: new           #13                 // class java/lang/Exception
+         7: dup
+         8: ldc           #15                 // String test
+        10: invokespecial #17                 // Method java/lang/Exception."<init>":(Ljava/lang/String;)V
+        13: athrow
+        14: return
+
+    public Test() {
+        try {
+            j++;
+        } catch (Exception e) {
+            i++;
+        }
+
+    }
+
+    Code:
+      stack=3, locals=2, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V
+         4: aload_0
+         5: dup
+         6: getfield      #7                  // Field j:I
+         9: iconst_1
+        10: iadd
+        11: putfield      #7                  // Field j:I
+        14: goto          26
+        17: astore_1                //编译后try语句块似乎没有生成任何指令，异常表中有不同顺序的异常处理器成员，一个try结构中可包含多个catch语句块，调用时按照异常表中的顺序 如果内部catch语句块中返回指令抛出了异常，则由外层的异常处理器进行处理。
+        18: getstatic     #15                 // Field i:I
+        21: iconst_1
+        22: iadd
+        23: putstatic     #15                 // Field i:I
+        26: return
+      Exception table:
+         from    to  target type
+             4    14    17   Class java/lang/Exception
+
+finally 多个catch
+    public Test() {
+        try {
+            j++;
+        } catch (NullPointerException e2) {
+            throw new ArrayIndexOutOfBoundsException();
+        } catch (Exception e) {
+            i++;
+        } finally {
+            i = 1;
+        }
+
+    }
+    Code:
+      stack=3, locals=3, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V
+         4: aload_0
+         5: dup
+         6: getfield      #7                  // Field j:I
+         9: iconst_1
+        10: iadd
+        11: putfield      #7                  // Field j:I
+        14: iconst_1
+        15: putstatic     #13                 // Field i:I
+        18: goto          53
+        21: astore_1
+        22: new           #18                 // class java/lang/ArrayIndexOutOfBoundsException
+        25: dup
+        26: invokespecial #20                 // Method java/lang/ArrayIndexOutOfBoundsException."<init>":()V
+        29: athrow
+        30: astore_1
+        31: getstatic     #13                 // Field i:I
+        34: iconst_1
+        35: iadd
+        36: putstatic     #13                 // Field i:I
+        39: iconst_1
+        40: putstatic     #13                 // Field i:I
+        43: goto          53
+        46: astore_2
+        47: iconst_1
+        48: putstatic     #13                 // Field i:I
+        51: aload_2
+        52: athrow
+        53: return
+      Exception table:
+         from    to  target type
+             4    14    21   Class java/lang/NullPointerException
+             4    14    30   Class java/lang/Exception
+             4    14    46   any  // finally的内容从46行开始
+            21    39    46   any
+
+同步
+monitorenter 和 monitorexit用来编译同步语句块，为了确保每条monitorenter都必须有对应的monitorexit指令得到执行，编译器自动产生一个异常处理器，用来执行第二次monitorexit指令
+    public Test() {
+        synchronized (this) {
+            i++;
+        }
+    }
+
+    Code:
+      stack=2, locals=3, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method Versions/jvmusage/TB."<init>":()V
+         4: aload_0
+         5: dup
+         6: astore_1
+         7: monitorenter
+         8: getstatic     #7                  // Field i:I
+        11: iconst_1
+        12: iadd
+        13: putstatic     #7                  // Field i:I
+        16: aload_1
+        17: monitorexit
+        18: goto          26
+        21: astore_2
+        22: aload_1
+        23: monitorexit
+        24: aload_2
+        25: athrow
+        26: return
+      Exception table:
+         from    to  target type
+             8    18    21   any
+            21    24    21   any
+
+同步方法并不是由monitorenter 和 monitorexit指令来实现的，而是由方法调用指令读取常量池中方法的ACC_SYNCHRONIZED标志来隐式实现的
+    public synchronized static void test1(int j) throws Exception {
+        if (j == 0) {
+            throw new Exception("test");
+        }
+    }
+  public static synchronized void test1(int) throws java.lang.Exception;
+    descriptor: (I)V
+    flags: (0x0029) ACC_PUBLIC, ACC_STATIC, ACC_SYNCHRONIZED
+    Code:
+      stack=3, locals=1, args_size=1
+         0: iload_0
+         1: ifne          14
+         4: new           #13                 // class java/lang/Exception
+         7: dup
+         8: ldc           #15                 // String test
+        10: invokespecial #17                 // Method java/lang/Exception."<init>":(Ljava/lang/String;)V
+        13: athrow
+        14: return
+
+注解
+    /**
+     * 自定义的Annotation。     自定义注解
+     */
+    @Target(ElementType.TYPE)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Inherited
+    @interface Inheritable {
+    }
+
+ClassFile结构中的ACC_INTEREFACE 和ACC_ABSTRACT标志会开启。
+
+class文件格式

@@ -1,26 +1,37 @@
 package Versions.jvmusage;
 
+import java.lang.annotation.*;
+
 public class Test extends TB {
-    public Test(int i, int j) {
-        int a = super.test1(i, j);
-        a = test1(i, j);
+    static int i;
+    int j;
+
+    public Test() {
+        synchronized (this) {
+            i++;
+        }
     }
 
-    public int test1(int i, int j) {
-        return i + j + 3;
+    /**
+     * 自定义的Annotation。     自定义注解
+     */
+    @Target(ElementType.TYPE)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Inherited
+    @interface Inheritable {
+    }
+
+    public synchronized static void test1(int j) throws Exception {
+        if (j == 0) {
+            throw new Exception("test");
+        }
     }
 
     public static void main(String[] args) {
-        new Test(-1, -2);
+        new Test();
     }
 }
 
 class TB {
-    public TB() {
 
-    }
-
-    public int test1(int i, int j) {
-        return i + j;
-    }
 }
